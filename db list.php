@@ -5,58 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-
-$servername = "192.168.0.10";
-$username = "admin";
-$password = "Password123@";
-$db = "Ultimate";
-$team = new Team();
-/*
-// Create connection
-$conn = new mysqli($servername, $username, $password, $db);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//echo "Connected successfully";
-
-$sql = "SELECT * FROM players;";
-$result = $conn->query($sql);
-
-if (!empty($result) && $result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $team->addPlayer($row["name"], $row["surname"], $row["number"], $row["gender"]);
-    }
-} else {
-    echo "0 results";
-}
-
-echo json_encode($team, JSON_UNESCAPED_UNICODE);
-*/
-$games = new Games();
-$conn = new mysqli($servername, $username, $password, $db);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//echo "Connected successfully";
-
-$sql = "SELECT id, tournament, date(timestamp), opponent, offence FROM games;";
-$result = $conn->query($sql);
-
-if (!empty($result) && $result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $games->addGame($row["id"], $row["tournament"], $row["date"], $row["opponent"], $row["offence"]);
-    }
-} else {
-    echo "0 results";
-}
-
-echo json_encode($games, JSON_UNESCAPED_UNICODE);
+echo json_encode(getGames(), JSON_UNESCAPED_UNICODE);
 
 class Player {
     public $name;
@@ -118,5 +67,63 @@ class Games {
     }
 }
 
-$conn->close();
+function getTeam(): Team {
+    $servername = "192.168.0.10";
+    $username = "admin";
+    $password = "Password123@";
+    $db = "Ultimate";
+    $team = new Team();
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $db);
+
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+//echo "Connected successfully";
+
+    $sql = "SELECT * FROM players;";
+    $result = $conn->query($sql);
+
+    if (!empty($result) && $result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            $team->addPlayer($row["name"], $row["surname"], $row["number"], $row["gender"]);
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    return $team;
+}
+function getGames(): Games {
+    $servername = "192.168.0.10";
+    $username = "admin";
+    $password = "Password123@";
+    $db = "Ultimate";
+    $games = new Games();
+    $conn = new mysqli($servername, $username, $password, $db);
+
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+//echo "Connected successfully";
+
+    $sql = "SELECT id, tournament, date, opponent, offence FROM games;";
+    $result = $conn->query($sql);
+
+    if (!empty($result) && $result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            $games->addGame($row["id"], $row["tournament"], new DateTime($row["date"]), $row["opponent"], $row["offence"]);
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    return $games;
+}
+
+
 ?>
