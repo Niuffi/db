@@ -46,7 +46,7 @@ class Game {
         $this->id = (int)$id;
         $this->tournament = $tournament;
         $this->opponent = $opponent;
-        $this->date = $date;
+        $this->date = $date - 978307200;
         if($offence == 1) {
             $this->offence = true;
         }
@@ -110,13 +110,13 @@ function getGames(): Games {
     }
 //echo "Connected successfully";
 
-    $sql = "SELECT id, tournament, date, opponent, offence FROM games;";
+    $sql = "SELECT id, tournament, unix_timestamp(date), opponent, offence FROM games;";
     $result = $conn->query($sql);
 
     if (!empty($result) && $result->num_rows > 0) {
         // output data of each row
         while($row = $result->fetch_assoc()) {
-            $games->addGame($row["id"], $row["tournament"], new DateTime($row["date"]), $row["opponent"], $row["offence"]);
+            $games->addGame($row["id"], $row["tournament"], $row["date"], $row["opponent"], $row["offence"]);
         }
     } else {
         echo "0 results";
