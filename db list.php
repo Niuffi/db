@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-echo json_encode(getGames(), JSON_UNESCAPED_UNICODE);
+echo json_encode(getGames($servername, $username, $password, $db), JSON_UNESCAPED_UNICODE);
 
 class Player {
     public $name;
