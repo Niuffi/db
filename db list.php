@@ -46,7 +46,7 @@ class Game {
         $this->id = (int)$id;
         $this->tournament = $tournament;
         $this->opponent = $opponent;
-        $this->date = $date - 978307200;
+        $this->date = $date;
         if($offence == 1) {
             $this->offence = true;
         }
