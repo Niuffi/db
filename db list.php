@@ -1,5 +1,5 @@
 <?php
-
+require 'config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -66,12 +66,7 @@ class Games {
         $this->games[] = $newGame;
     }
 }
-
 function getTeam(): Team {
-    $servername = "192.168.0.10";
-    $username = "admin";
-    $password = "Password123@";
-    $db = "Ultimate";
     $team = new Team();
     // Create connection
     $conn = new mysqli($servername, $username, $password, $db);
@@ -97,10 +92,6 @@ function getTeam(): Team {
     return $team;
 }
 function getGames(): Games {
-    $servername = "192.168.0.10";
-    $username = "admin";
-    $password = "Password123@";
-    $db = "Ultimate";
     $games = new Games();
     $conn = new mysqli($servername, $username, $password, $db);
 
@@ -110,7 +101,7 @@ function getGames(): Games {
     }
 //echo "Connected successfully";
 
-    $sql = "SELECT id, tournament, unix_timestamp(date), opponent, offence FROM games;";
+    $sql = "SELECT id, tournament, date, opponent, offence FROM games;";
     $result = $conn->query($sql);
 
     if (!empty($result) && $result->num_rows > 0) {
