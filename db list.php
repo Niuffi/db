@@ -66,7 +66,7 @@ class Games {
         $this->games[] = $newGame;
     }
 }
-function getTeam(): Team {
+function getTeam($servername, $username, $password, $db): Team {
     $team = new Team();
     // Create connection
     $conn = new mysqli($servername, $username, $password, $db);
@@ -91,7 +91,7 @@ function getTeam(): Team {
     $conn->close();
     return $team;
 }
-function getGames(): Games {
+function getGames($servername, $username, $password, $db): Games {
     $games = new Games();
     $conn = new mysqli($servername, $username, $password, $db);
 
